@@ -1,0 +1,125 @@
+<script>
+
+	function showMessage(message, type){
+        if (!type) type = 'error';
+        $('.error,.updated').remove();
+        $('div.bodycontent').before('<div class="'+type+'" style="display:block;">'+message+'</div>');
+        $('.error,.updated').delay(200).fadeOut(500).fadeIn(500);
+    }
+	
+	<?php if (isset($success)): ?>
+		showMessage('<?php echo $success ? 'Your changes have been saved.' : 'File save error.'?>', '<?php echo $success ? 'updated' : 'error'?>');	
+	<?php endif; ?>
+
+</script>
+
+<form id="configForm" method="post" action="load.php?id=PageLock">
+    <div class="section">
+        <h3>Page Lock - settings</h3>
+
+		<table class="settings">
+            <tbody>
+				<tr>
+                    <td colspan="2">
+						<table class="slugsSettings">
+						  <tbody>
+							<tr>
+							  <th>Visibility<br/>(public/private):</th>
+							  <th>Template:</th>
+							  <th>Parent:</th>
+							  <th>Slug:</th>
+							</tr>
+							<tr>
+							  <td>
+								<input type="checkbox" name="visibility_lock" <?php echo ($settings->visibility_lock ? 'checked="checked"' : '') ?> />
+							  </td>
+							  <td>
+							   <input type="checkbox" name="template_lock" <?php echo ($settings->template_lock ? 'checked="checked"' : '') ?> />
+							  </td>
+							  <td>
+								<input type="checkbox" name="parent_lock" <?php echo ($settings->parent_lock ? 'checked="checked"' : '') ?> />
+							  </td>
+							  <td>
+								<input type="checkbox" name="slug_lock" <?php echo ($settings->slug_lock ? 'checked="checked"' : '') ?> />
+							  </td>    
+							</tr>
+							</tbody>
+						</table>
+						
+						<p>
+							<label for="options_slugs">Slugs to lock above parameters (comma separated):</label>
+							<textarea id="options_slugs" name="options_slugs" rows="5"><?php echo implode(',', $settings->options_slugs); ?></textarea>
+						</p>
+                    </td>   
+                </tr> 		
+
+				<tr>
+                    <td>
+						<input type="checkbox" id="create_lock" name="create_lock"  <?php echo ($settings->create_lock ? 'checked="checked"' : '') ?> />
+                    </td>   
+                    <td>
+                        <label for="create_lock">Disable creating new pages</label>
+                    </td>    
+                </tr> 		
+
+				<tr>
+                    <td>
+						<input type="checkbox" id="special_pages_enabled" name="special_pages_enabled"  <?php echo ($settings->special_pages_enabled ? 'checked="checked"' : '') ?> />
+                    </td>   
+                    <td>
+                        <label for="special_pages_enabled">Enable creating special pages new pages</label>
+						<p class="hint">Enter allowed special pages type names (comma separated)</p>
+						<textarea id="special_types" name="special_types" rows="3"><?php echo implode(',', $settings->special_types); ?></textarea>
+                    </td>    
+                </tr> 
+ 		
+				
+				<tr>
+                    <td>
+						<input type="checkbox" id="delete_lock" name="delete_lock"  <?php echo ($settings->delete_lock ? 'checked="checked"' : '') ?> />
+                    </td>   
+                    <td>
+                        <label for="delete_lock">Lock deleting pages</label>
+                        <p class="hint">Enter page slugs (comma separated values)</p>
+						<textarea id="delete_slugs" name="delete_slugs" rows="5"><?php echo implode(',', $settings->delete_slugs); ?></textarea>
+                    </td>    
+                </tr>		
+
+
+                <tr>
+                    <td>
+						<input type="checkbox" id="preview_lock" name="preview_lock"  <?php echo (@$settings->preview_lock ? 'checked="checked"' : '') ?> />
+                    </td>   
+                    <td>
+                        <label for="preview_lock">Remove page preview buttons</label>
+                        <p class="hint">Removes all page preview buttons from admin panel.</p>
+                    </td>    
+                </tr>    
+
+				<tr>
+                    <td>
+						<input type="checkbox" id="special_browse_remove" name="special_browse_remove"  <?php echo (@$settings->special_browse_remove ? 'checked="checked"' : '') ?> />
+                    </td>   
+                    <td>
+                        <label for="special_browse_remove">Remove 'View all Special Pages' button from Pages tab</label>
+                    </td>    
+                </tr>  				
+
+ 				<tr>
+                    <td class="checkbox">
+						<input type="checkbox" id="special_pages_security" name="special_pages_security"  <?php echo (@$settings->special_pages_security ? 'checked="checked"' : '') ?> />
+                    </td>   
+                    <td>
+                        <label for="special_pages_security">I18N Special Pages additional security check</label>
+                        <p class="hint">Security check used when saving page that is special page. It ensures that page special type, template, and parent are not changed if was set in special type configuration. User can edit hidden form fields when editing page content.</p>
+                    </td>    
+                </tr>  	
+            </tbody>
+        </table>
+
+
+    </div>
+	
+	<input name="post" type="submit" class="submit" value="Save changes" />
+
+</form>
